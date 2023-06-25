@@ -75,19 +75,6 @@ def counting_animals(scenes, animals):
     return [countMin, countMax]
 
 
-## Animal que mas y menos se repite al igual que el numero de veces
-# maxAndMin = counting_animals(totalEscenas, ANIMALES)
-# print(maxAndMin)
-
-# Imprimir los animales que menos salen y que mas salen en ese orden
-"""
-for i in maxAndMin:
-    for j in i:
-        for key, value in animals:
-            if value == j:
-                print(key)
-"""
-
 
 ## Retorna la grandeza total de una escena (de animales)
 ## y la  grandeza maxima
@@ -108,7 +95,7 @@ def grandeza_total_y_max(escena, grandezas):
 p = ['Tapir', 'Nutria', 'Perro']
 print(grandeza_total_y_max(p, ANIMALES))
 
-
+#Ordena una escena
 def counting_sort(scene, animals):
     size = len(scene)
     output = [0] * size
@@ -125,27 +112,71 @@ def counting_sort(scene, animals):
     # Sorting
     i = size - 1
     while i >= 0:
-        output[count[animals[scene[i]]] - 1] = animals[scene[i]]
+        output[count[animals[scene[i]]] - 1] = list(animals.keys())[list(animals.values()).index(animals[scene[i]])]
         count[animals[scene[i]]] -= 1
         i -= 1
+
+    def grandeza_total_y_max(escena, grandezas):
+        animal0 = escena[0]
+        grandeza_total = grandezas[animal0]
+        grandeza_max = grandezas[animal0]
+        for i in range(1, len(escena)):
+            animal1 = escena[i]
+            grandeza_total += grandezas[animal1]
+            if grandezas[animal1] > grandezas[animal0]:
+                grandeza_max = grandezas[animal1]
+                animal0 = animal1
+        return int(str(grandeza_total)+str(grandeza_max))
 
     return [output, grandeza_total_y_max(scene, animals)]
 
 
 # Test Sort
-
 print(counting_sort(p, ANIMALES))
 
 print("****************************Ordenando Todas las Escenas*************")
 
+escenas_Ordenadas_Internas = []
 for escena in apertura:
-    print(counting_sort(escena, ANIMALES))
+    escenas_Ordenadas_Internas.append(counting_sort(escena, ANIMALES))
+
+#print(aux)
 
 
-# print(ANIMALES['Gato'])
-# insertion_sort_animals(data1,ANIMALES)
-# print(data1)
 
+#HAY QUE BUSCAR UNA MEJOR MANERA DE HACERLO SIN USAR TANTA MEMORIA PERO POR SI NO SE PUEDE AHI LO DEJO
+#Ordena las escenas segun su grandeza
+def counting_sort_scenes(array):
+    size = len(array)
+    output = [0] * size
+    max_v=300
+    # Initialize count array
+    count = [0] * 300  #URGENTE CAMBIAR ESTO
+
+    # Store the count of each elements in count array
+    for i in range(0, size):
+        count[array[i][1]] += 1
+
+    # Store the cummulative count
+    for i in range(1, max_v):
+        count[i] += count[i - 1]
+
+    # Find the index of each element of the original array in count array
+    # place the elements in output array
+    i = size - 1
+    while i >= 0:
+        output[count[array[i][1]] - 1] = array[i][0]
+        count[array[i][1]] -= 1
+        i -= 1
+
+    #return output
+    # Copy the sorted elements into original array
+    for i in range(0, size):
+        array[i] = output[i]
+
+
+counting_sort_scenes(escenas_Ordenadas_Internas)
+print(escenas_Ordenadas_Internas)
 
 ## merge-sort
 ## complejidad = O(n*log(n))
