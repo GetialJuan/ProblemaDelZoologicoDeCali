@@ -14,8 +14,13 @@ m = 3
 # Numero de escenas de cada parte
 k = 2
 
-escenas = [['Tapir', 'Nutria', 'Perro'], ['Tapir', 'Perro', 'Gato'], ['Ciempies',
-'Tapir', 'Gato'], ['Gato', 'Ciempies', 'Libelula']]
+escenas = [['Tapir', 'Nutria', 'Perro'], ['Tapir', 'Perro', 'Gato'], ['Ciempies','Tapir', 'Gato'], ['Gato', 'Ciempies', 'Libelula']]
+
+parte_1 =[['Tapir', 'Nutria', 'Perro'], ['Ciempies','Tapir', 'Gato']]
+
+parte_2 =[['Gato', 'Ciempies', 'Libelula'],['Tapir', 'Perro', 'Gato']]
+
+totalEscenas = escenas + parte_1 + parte_2
 
 ### Funciones de ordenamiento para listas de animales
 ### animal = (nombre, grandeza)
@@ -33,6 +38,74 @@ def insertion_sort_animals(animales, grandezas):
             j -= 1
 
         animales[j + 1] = animal  # Insertar el animal actual en su posición correcta
+
+
+## Contar la participacion de Animales
+#countAnimals(list,list) -> list
+# @params escenas -> lista que contiene todas las escenas
+# @params animales -> lista que contiene todos los animales
+
+def counting(scenes, animals):
+    #aux que baja al mismo nivel los elemntos de una lista
+    def downList(list):
+        result=[]
+        for sublist in list:
+            result +=sublist
+        return result
+
+    animalsInScenes = downList(scenes)
+
+    size = len(animalsInScenes)
+    # Initialize count array
+    count = [0] * 7 #El 7 representa el valor maximo + 1, este valor viene dado el animal con mayor grandeza
+    # Store the count of each elements in count array
+    for i in range(0, size):
+        count[animals[animalsInScenes[i]]] += 1
+
+    countMax = [i for i, x in enumerate(count) if x == max(count)] #Busca TODOS los minimos
+    countMin = [i for i, x in enumerate(count) if x == min(count[1:])] #Busca TODOS los maximos
+
+    return [countMin,countMax]
+
+maxAndMin = counting(totalEscenas,ANIMALES)
+
+animals= ANIMALES.items()
+
+#Imprimir los animales que menos salen y que mas salen en ese orden
+for i in maxAndMin:
+    for j in i:
+        for key, value in animals:
+            if value == j:
+                print(key)
+
+
+
+
+"""
+# Store the cummulative count
+for i in range(1, 10):
+    count[i] += count[i - 1]
+
+# Find the index of each element of the original array in count array
+# place the elements in output array
+i = size - 1
+while i >= 0:
+    output[count[array[i]] - 1] = array[i]
+    count[array[i]] -= 1
+    i -= 1
+
+# Copy the sorted elements into original array
+for i in range(0, size):
+    array[i] = output[i]
+"""
+
+
+
+#Test Sort
+data1 =['Tapir', 'Nutria', 'Perro']
+#print(ANIMALES['Gato'])
+#insertion_sort_animals(data1,ANIMALES)
+#print(data1)
 
 
 ## merge-sort
@@ -88,5 +161,5 @@ def grandeza_total_y_max(escena, grandezas):
             animal0 = animal1
     return (grandeza_total, grandeza_max)
 
-p = ['Tapir', 'Nutria', 'Perro']
-print(grandeza_total_y_max(p, ANIMALES))
+#p = ['Tapir', 'Nutria', 'Perro']
+#print(grandeza_total_y_max(p, ANIMALES))
