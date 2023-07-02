@@ -21,7 +21,7 @@ parte_1 = [['Tapir', 'Nutria', 'Perro'], ['Ciempies', 'Tapir', 'Gato']]
 
 parte_2 = [['Gato', 'Ciempies', 'Libelula'], ['Tapir', 'Perro', 'Gato']]
 
-partes = [parte_1, parte_2]
+partes = [apertura, parte_1, parte_2]
 
 
 ### Funciones de ordenamiento para listas de animales
@@ -142,7 +142,10 @@ def counting_sort_parts(parts, grandezas_totales):
     for i in range(0, size):
         parts[i] = output[i]
 
-def solution(partes, grandezas):
+def solution(partes, grandezas, n, m, k):
+    grandeza_total_espectaculo = 0
+    aperture = partes[0] 
+    parts = partes[1:]
     animales = grandezas.keys()
     count_animals = {}
     for animal in animales:
@@ -224,10 +227,37 @@ def solution(partes, grandezas):
             grandezas_totales.append(parte_ordenada[1])
 
         counting_sort_parts(partes_ordenadas, grandezas_totales)
-        print(partes_ordenadas)
+        return (partes_ordenadas, grandezas_totales)
+
+    def ordenar_apertura(apertura):
+        escenas_Ordenadas_Internas = []
+        grandezas_totales = []
+        grandezas_max = []
+        grandeza_total_escena = 0
+        for escena in apertura:
+            (escena_ordenada, grandeza_total, grandeza_max) = counting_sort(escena, ANIMALES)
+            escenas_Ordenadas_Internas.append((escena_ordenada, grandeza_total, grandeza_max))
+            grandezas_totales.append(grandeza_total)
+            grandezas_max.append(grandeza_max)
+            grandeza_total_escena += grandeza_total
+        
+        escena_max = find_max_value(grandezas_totales)
+        escena_min = find_min_value(grandezas_totales)
+
+        counting_sort_scenes_grandeza_max(escenas_Ordenadas_Internas, grandezas_max)
+        counting_sort_scenes(escenas_Ordenadas_Internas, grandezas_totales)
+
+        return [escenas_Ordenadas_Internas,
+                escenas_Ordenadas_Internas[grandezas_totales.index(escena_max)], 
+                escenas_Ordenadas_Internas[grandezas_totales.index(escena_min)],
+                grandeza_total_escena]
 
     print('Partes ordenadas:')
-    ordenar_partes(partes)
+    (aperture_ordenada, max_escene, min_escene, grandeza_total_aperture) = ordenar_apertura(aperture)
+
+    (partes_ordenadas, grandezas_totales) = ordenar_partes(parts)
+    print(aperture_ordenada)
+    print(partes_ordenadas)
 
     count_animals_values = list(count_animals.values())
     max_animal = find_max_value(count_animals_values)
@@ -246,5 +276,16 @@ def solution(partes, grandezas):
     print(max_animals)
     print(min_animals)
 
+    print('Escena de mayor/menor grandeza total:')
+    print(min_escene)
+    print(max_escene)
 
-solution(partes, ANIMALES)
+    print('Promedio de grandeza:')
+    for grand in grandezas_totales:
+        grandeza_total_espectaculo += grand
+    grandeza_total_espectaculo += grandeza_total_aperture
+    escenas_totales = ((m-1)*k)*2
+    print(grandeza_total_espectaculo/escenas_totales)
+
+
+solution(partes, ANIMALES, len(ANIMALES), 3, 2)
