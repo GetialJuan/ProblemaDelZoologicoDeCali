@@ -1,29 +1,5 @@
 #### Solucion al Problema del Zoologico de Cali ####
 
-### Parametros de entrada (Primer ejemplo del enunciado)
-ANIMALES = {'Ciempies': 1,
-            'Libelula': 2,
-            'Gato': 3,
-            'Perro': 4,
-            'Tapir': 5,
-            'Nutria': 6}
-
-n = len(ANIMALES)
-# Numero de partes
-m = 3
-# Numero de escenas de cada parte
-k = 2
-
-apertura = [['Tapir', 'Nutria', 'Perro'], ['Tapir', 'Perro', 'Gato'], ['Ciempies', 'Tapir', 'Gato'],
-            ['Gato', 'Ciempies', 'Libelula']]
-
-parte_1 = [['Tapir', 'Nutria', 'Perro'], ['Ciempies', 'Tapir', 'Gato']]
-
-parte_2 = [['Gato', 'Ciempies', 'Libelula'], ['Tapir', 'Perro', 'Gato']]
-
-partes = [apertura, parte_1, parte_2]
-
-
 ### Funciones de ordenamiento para listas de animales
 def find_max_value(lst):
     if not lst:
@@ -256,8 +232,9 @@ def solution(partes, grandezas, n, m, k):
     (aperture_ordenada, max_escene, min_escene, grandeza_total_aperture) = ordenar_apertura(aperture)
 
     (partes_ordenadas, grandezas_totales) = ordenar_partes(parts)
-    print(aperture_ordenada)
-    print(partes_ordenadas)
+    print('Apertura: ',aperture_ordenada)
+    for parte in partes_ordenadas:
+        print('Parte: ', parte)
 
     count_animals_values = list(count_animals.values())
     max_animal = find_max_value(count_animals_values)
@@ -272,15 +249,15 @@ def solution(partes, grandezas, n, m, k):
         if value == min_animal:
             min_animals.append([animal, value])
 
-    print('Animales que mas/menos participaron:')
+    print('\nAnimales que mas/menos participaron:')
     print(max_animals)
     print(min_animals)
 
-    print('Escena de mayor/menor grandeza total:')
+    print('\nEscena de menor/mayor grandeza total:')
     print(min_escene)
     print(max_escene)
 
-    print('Promedio de grandeza:')
+    print('\nPromedio de grandeza:')
     for grand in grandezas_totales:
         grandeza_total_espectaculo += grand
     grandeza_total_espectaculo += grandeza_total_aperture
@@ -288,4 +265,82 @@ def solution(partes, grandezas, n, m, k):
     print(grandeza_total_espectaculo/escenas_totales)
 
 
-solution(partes, ANIMALES, len(ANIMALES), 3, 2)
+print('EJEMPLO 1')
+### Parametros de entrada
+ANIMALES = {'Ciempies': 1,
+            'Libelula': 2,
+            'Gato': 3,
+            'Perro': 4,
+            'Tapir': 5,
+            'Nutria': 6}
+
+n = len(ANIMALES)
+# Numero de partes
+m = 3
+# Numero de escenas de cada parte
+k = 2
+
+apertura = [['Tapir', 'Nutria', 'Perro'], ['Tapir', 'Perro', 'Gato'], ['Ciempies', 'Tapir', 'Gato'],
+            ['Gato', 'Ciempies', 'Libelula']]
+
+parte_1 = [['Tapir', 'Nutria', 'Perro'], ['Ciempies', 'Tapir', 'Gato']]
+
+parte_2 = [['Gato', 'Ciempies', 'Libelula'], ['Tapir', 'Perro', 'Gato']]
+
+partes = [apertura, parte_1, parte_2]
+
+solution(partes, ANIMALES, n, m, k)
+print('\n')
+
+print('EJEMPLO 2')
+### Parametros de entrada
+ANIMALES = {'Capibara': 1,
+            'Loro': 2,
+            'Caiman': 3,
+            'Boa': 4,
+            'Cocodrilo': 5,
+            'Cebra': 6,
+            'Pantera negra': 7,
+            'Tigre': 8,
+            'Leon': 9}
+
+n = len(ANIMALES)
+# Numero de partes
+m = 4
+# Numero de escenas de cada parte
+k = 3
+
+apertura = [
+    ["Caiman", "Capibara", "Loro"],
+    ["Boa", "Caiman", "Capibara"],
+    ["Cocodrilo", "Capibara", "Loro"],
+    ["Pantera negra", "Cocodrilo", "Loro"],
+    ["Tigre", "Loro", "Capibara"],
+    ["Leon", "Caiman", "Loro"],
+    ["Leon", "Cocodrilo", "Boa"],
+    ["Leon", "Pantera negra", "Cebra"],
+    ["Tigre", "Cebra", "Pantera negra"]
+]
+
+parte_1 = [
+    ["Caiman", "Capibara", "Loro"],
+    ["Tigre", "Loro", "Capibara"],
+    ["Tigre", "Cebra", "Pantera negra"]
+]
+
+parte_2 = [
+    ["Pantera negra", "Cocodrilo", "Loro"],
+    ["Leon", "Pantera negra", "Cebra"],
+    ["Cocodrilo", "Capibara", "Loro"]
+]
+
+parte_3 = [
+    ["Boa", "Caiman", "Capibara"],
+    ["Leon", "Caiman", "Loro"],
+    ["Leon", "Cocodrilo", "Boa"]
+]
+
+partes = [apertura, parte_1, parte_2, parte_3]
+
+solution(partes, ANIMALES, n, m, k)
+print('\n')
