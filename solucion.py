@@ -25,13 +25,14 @@ def find_min_value(lst):
     
     return min_value
 
-## Ordena las escenas segun su grandeza max
+## Ordena las escenas
+## No retorna ningun valor ya que el array es pasado por referenciax
 def counting_sort_scenes_grandeza_max(array, grandezas_max):
     size = len(array) # Numero de Escenas
     output = [0] * size
     max_index=find_max_value(grandezas_max) + 1
     # Initialize count array
-    count = [0] * max_index  #URGENTE CAMBIAR ESTO
+    count = [0] * max_index  
 
     # Store the count of each elements in count array
     for i in range(0, size):
@@ -145,7 +146,12 @@ def solution(partes, grandezas, n, m, k):
                 animal0 = animal1
         return (grandeza_total, grandeza_max)
     
-    #Ordena una escena
+    ## Retorna una escena ordenada de animales junto con la grandeza_total y
+    ## la grandeza máxima
+    ## output: Escena ordnada
+    ## grandeza_total: Suma de las grandezas de la escena
+    ## grandeza_max: Grandeza máxima que tiene un animal en la escena
+    # Complexity O(n)
     def counting_sort(scene, animals):
         size = len(scene)
         output = [0] * size
@@ -176,7 +182,9 @@ def solution(partes, grandezas, n, m, k):
 
         return [output, grandeza_total, grandeza_max]
     
-    # ordena una parte.
+    ## Retorna una parte ordenada de escenas junto con su grandeza total de la escena
+    ## escenas_Ordenadas_Internas: Parte ordenada de escenas
+    ## grandeza_total_escena: Grandeza total de una Parte (Suma de las grandezas de las escenas)
     # una parte es una lista de escenas
     def ordenar_parte(parte):
         escenas_Ordenadas_Internas = []
@@ -189,7 +197,8 @@ def solution(partes, grandezas, n, m, k):
             grandezas_totales.append(grandeza_total)
             grandezas_max.append(grandeza_max)
             grandeza_total_escena += grandeza_total
-
+        
+        #Ordena las esceneas a partir de su grandeza máxima
         counting_sort_scenes_grandeza_max(escenas_Ordenadas_Internas, grandezas_max)
         counting_sort_scenes(escenas_Ordenadas_Internas, grandezas_totales)
         return [escenas_Ordenadas_Internas, grandeza_total_escena]
