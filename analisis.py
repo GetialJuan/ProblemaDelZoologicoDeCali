@@ -1,4 +1,4 @@
-import time, random, itertools, string
+import time, random
 #--------
 #### Solucion al Problema del Zoologico de Cali ####
 
@@ -304,19 +304,84 @@ def generador_partes(animales, m, k):
     return partes
 
 
-print('PRUEBA')
-### Parametros de entrada
-ANIMALES = generador_animales(100000000000000000000)
+print('----------------------------------------------------------------------')
+print('--------------------------INICIO DE ANÁLISIS--------------------------')
+print('----------------------------------------------------------------------')
 
-n = len(ANIMALES)
-# Numero de partes
-m = 1000
-# Numero de escenas de cada parte
-k = 2
+print("¿Que deseas probar? Ingresa el número que corresponda")
+print("1. Análisis de K\n2. Análisis de M\n3. Análisis de N")
+opcion = int(input("Ingresa la opción: "))
+while opcion > 3 or opcion < 1:
+    print("¡Ups! Opción incorrecta, intenta de nuevo")
+    opcion = int(input("Ingresa la opción: "))
 
-apertura = generador_apertura(ANIMALES, m, k)
-partes = generador_partes(ANIMALES, m, k)
-partes.insert(0, apertura) #Se inserta a partes la apertura en la primera posición
+if (opcion == 1):
+    print('------------------------------ANÁLISIS DE K----------------------------------')
+    n = 1000
+    ANIMALES = generador_animales(n)
+    m = 1000
+    k = 10
+    for i in range (0,20):
+        ANIMALES = generador_animales(1000)
+        apertura = generador_apertura(ANIMALES, m, k)
+        partes = generador_partes(ANIMALES, m, k)
+        partes.insert(0, apertura) #Se inserta a partes la apertura en la primera posición
+        tiempo_inicio = time.time()
+        solution(partes, ANIMALES, n, m, k)
+        tiempo_final = time.time()
+        tiempo_ejecucion = tiempo_final - tiempo_inicio
+        print(f'k = {k}')
+        print(f'El tiempo para el cálculo fue de: {tiempo_ejecucion}') 
+        k += 5
+    print('---------------------------------------------------------------------------')
+elif (opcion == 2):
+    print('------------------------------ANÁLISIS DE M----------------------------------')
+    n = 1000
+    ANIMALES = generador_animales(n)
+    m = 500
+    k = 10
+    for i in range (0,20):
+        ANIMALES = generador_animales(1000)
+        apertura = generador_apertura(ANIMALES, m, k)
+        partes = generador_partes(ANIMALES, m, k)
+        partes.insert(0, apertura) #Se inserta a partes la apertura en la primera posición
+        tiempo_inicio = time.time()
+        solution(partes, ANIMALES, n, m, k)
+        tiempo_final = time.time()
+        tiempo_ejecucion = tiempo_final - tiempo_inicio
+        print(f'm = {m}')
+        print(f'El tiempo para el cálculo fue de: {tiempo_ejecucion}') 
+        m += 500
+    print('----------------------------------------------------------------------------')
+else:
+    print('------------------------------ANÁLISIS DE N----------------------------------')
+    n = 500
+    m = 1000
+    k = 10
+    for i in range (0,20):
+        ANIMALES = generador_animales(n)
+        n = len(ANIMALES)
+        apertura = generador_apertura(ANIMALES, m, k)
+        partes = generador_partes(ANIMALES, m, k)
+        partes.insert(0, apertura)
+        tiempo_inicio = time.time()
+        solution(partes, ANIMALES, n, m, k)
+        tiempo_final = time.time()
+        tiempo_ejecucion = tiempo_final - tiempo_inicio
+        print(f'm = {n}')
+        print(f'El tiempo para el cálculo fue de: {tiempo_ejecucion}')
+        n += 500
+    print('----------------------------------------------------------------------------')
 
-solution(partes, ANIMALES, n, m, k)
+
+
+
+
+
+
+
+#print('----------------------------------------------------------------------')
+#print(f'El tiempo promedio para el cálculo fue de: {sum(tiempos)/len(tiempos)}') 
+#print('----------------------------------------------------------------------')
+
 
